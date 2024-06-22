@@ -1,4 +1,7 @@
-CREATE DATABASE bitcoin_explorer;
+-- Check if the database exists before trying to create it
+SELECT 'CREATE DATABASE bitcoin_explorer'
+WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'bitcoin_explorer');
+
 GRANT ALL PRIVILEGES ON DATABASE bitcoin_explorer TO rustuser;
 
 \c bitcoin_explorer

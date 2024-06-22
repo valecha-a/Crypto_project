@@ -1,0 +1,177 @@
+# version: '3.8'
+
+# services:
+#   postgres:
+#     image: postgres:13
+#     environment:
+#       POSTGRES_USER: rustuser
+#       POSTGRES_PASSWORD: admin
+#       POSTGRES_DB: bitcoin_explorer
+#     ports:
+#       - "5432:5432"
+#     volumes:
+#       - pgdata:/var/lib/postgresql/data
+#       - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # Mount init.sql into the PostgreSQL container
+
+#   backend:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     ports:
+#       - "8080:8080"
+#     environment:
+#       DATABASE_URL: postgres://rustuser:admin@postgres:5432/bitcoin_explorer
+#       BITQUERY_API_TOKEN: ory_at_55ZiBufdk_dMMfVZxIgA-8jAGVxM6DCcm3roWg6RUN0.KnYKonzq1j3eufdH9gH_2jRDxmM2lRGdojNW5nU3aac
+#       API_KEY: BQYJaKNzIyY9QJoTpGQgnL6AfcCmm3Ye
+#     depends_on:
+#       - postgres
+#     volumes:
+#       - ./src:/app/src  # Mount your backend source code
+#       - pgdata:/var/lib/postgresql/data  # Mount PostgreSQL data volume (optional)
+
+#   frontend:
+#     build:
+#       context: ./bitcoin-explorer-frontend
+#       dockerfile: Dockerfile
+#     ports:
+#       - "3000:3000"
+#     volumes:
+#       - ./bitcoin-explorer-frontend/src:/app/src  # Mount your frontend source code
+
+# volumes:
+#   pgdata:
+
+
+# version: '3.8'
+
+# services:
+#   postgres:
+#     image: postgres:13
+#     environment:
+#       POSTGRES_USER: rustuser
+#       POSTGRES_PASSWORD: admin
+#       POSTGRES_DB: bitcoin_explorer
+#     ports:
+#       - "5432:5432"
+#     volumes:
+#       - pgdata:/var/lib/postgresql/data
+#       - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # Mount init.sql into the PostgreSQL container
+
+#   backend:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     ports:
+#       - "8080:8080"
+#     environment:
+#       DATABASE_URL: postgres://rustuser:admin@postgres:5432/bitcoin_explorer
+#       BITQUERY_API_TOKEN: ${BITQUERY_API_TOKEN}  # Ensure .env is loaded
+#       API_KEY: ${API_KEY}  # Ensure .env is loaded
+#     depends_on:
+#       - postgres
+#     volumes:
+#       - ./src:/app/src  # Mount your backend source code
+#       - pgdata:/var/lib/postgresql/data  # Mount PostgreSQL data volume (optional)
+
+      
+
+# volumes:
+#   pgdata:
+
+# working but error
+
+# version: '3'
+# services:
+#   backend:
+#     build: 
+#       context: .
+#       dockerfile: Dockerfile  # This is the backend Dockerfile
+#     ports:
+#       - "8080:8080"
+#     depends_on:
+#       - postgres
+#     environment:
+#       DATABASE_URL: postgres://rustuser:admin@postgres:5432/bitcoin_explorer 
+#       API_KEY: BQYJaKNzIyY9QJoTpGQgnL6AfcCmm3Ye
+#       BITQUERY_API_TOKEN: ory_at_55ZiBufdk_dMMfVZxIgA-8jAGVxM6DCcm3roWg6RUN0.KnYKonzq1j3eufdH9gH_2jRDxmM2lRGdojNW5nU3aac
+#     networks:
+#       - app-network
+
+#   frontend:
+#     build: 
+#       context: ./bitcoin-explorer-frontend
+#       dockerfile: Dockerfile
+#     ports:
+#       - "3000:3000"
+#     depends_on:
+#       - backend
+#     networks:
+#       - app-network
+
+#   postgres:
+#     image: postgres:13.15
+#     environment:
+#       POSTGRES_DB: bitcoin_explorer
+#       POSTGRES_USER: rustuser
+#       POSTGRES_PASSWORD: admin
+#     networks:
+#       - app-network
+
+# networks:
+#   app-network:
+#     driver: bridge
+
+
+
+version: '3.8'
+services:
+  backend:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://rustuser:admin@localhost:5432/bitcoin_explorer 
+      API_KEY: BQYJaKNzIyY9QJoTpGQgnL6AfcCmm3Ye
+      BITQUERY_API_TOKEN: ory_at_55ZiBufdk_dMMfVZxIgA-8jAGVxM6DCcm3roWg6RUN0.KnYKonzq1j3eufdH9gH_2jRDxmM2lRGdojNW5nU3aac
+    networks:
+      - app-network
+
+  frontend:
+    build: 
+      context: ./bitcoin-explorer-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres:13.15
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: bitcoin_explorer
+      POSTGRES_USER: rustuser
+      POSTGRES_PASSWORD: admin
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rustuser"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  pgdata:
