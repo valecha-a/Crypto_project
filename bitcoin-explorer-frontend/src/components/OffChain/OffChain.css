@@ -1,0 +1,45 @@
+.metrics-container {
+    padding: 20px;
+  }
+  
+  .subtitle {
+    font-size: 14px;
+    color: #888;
+  }
+  
+  .error {
+    color: red;
+  }
+  
+  .metrics-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .metric-item {
+    background: #f9f9f9;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+  
+  .metric-detail {
+    margin: 5px 0;
+  }
+
+  .metrics-container {
+    padding: 20px;
+}
+
+.error {
+    color: red;
+}
+
+.table-container {
+    margin-top: 100px; /* Adjust margin to create space between chart and table */
+}
+
+.table-container h2 {
+    margin-bottom: 100px; /* Adjust margin below the title */
+}
+
