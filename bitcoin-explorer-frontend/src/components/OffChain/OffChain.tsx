@@ -44,7 +44,7 @@ const OffChain: React.FC = () => {
 
         fetchData();
 
-        const intervalId = setInterval(fetchData, 3000); // Fetch data every 30 sec
+        const intervalId = setInterval(fetchData, 300); // Fetch data every 5 min
 
         return () => clearInterval(intervalId); 
     }, []);

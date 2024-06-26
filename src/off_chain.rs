@@ -52,9 +52,9 @@ pub async fn fetch_and_store_data(client: &Client) -> Result<(), Box<dyn std::er
         println!("Period: {}", api_response.period);
         println!("Description: {}", api_response.description);
         println!("Values:");
-        for value in api_response.values.iter() {
-            println!("x: {}, y: {}", value.x, value.y);
-        }
+        //for value in api_response.values.iter() {
+          //  println!("x: {}, y: {}", value.x, value.y);
+        //}
 
         insert_data(client, api_response).await?;
     } else {

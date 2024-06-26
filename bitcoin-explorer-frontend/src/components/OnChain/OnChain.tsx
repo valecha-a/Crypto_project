@@ -19,7 +19,9 @@ const OnChain: React.FC = () => {
   useEffect(() => {
     fetchBlocks();
 
-    const intervalId = setInterval(fetchBlocks, 1 * 30 * 1000); 
+    const intervalId = setInterval(fetchBlocks, 5 * 60 * 1000); // 5 min
+    
+
 
     const ws = new WebSocket('ws://localhost:8080/ws');
 

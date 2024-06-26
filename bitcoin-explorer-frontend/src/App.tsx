@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import OffChain from './components/OffChain/OffChain';
 import Header from './components/Header/Header';
 import OnChain from './components/OnChain/OnChain'; 
+import PriceData from './components/PriceData/PriceData';
 
 const App: React.FC = () => {
   return (
@@ -16,7 +17,9 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/OffChain" element={<OffChain />} />
             <Route path="/OnChain" element={<OnChain />} />
-            <Route path="/" element={<OffChain />} />
+            <Route path="/PriceData" element={<PriceData />} />
+            
+            <Route path="/" element={<PriceData />} />
           </Routes>
         </main>
       </div>

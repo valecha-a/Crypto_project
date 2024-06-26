@@ -10,7 +10,9 @@ const Header: React.FC = () => {
           <Link to="/"><h1>CRYPTO</h1></Link>
           <ul className='right-nav'>
             <li><Link to="/OnChain">OnChain</Link></li>
-            <li><Link to="/OffChain">OffChain</Link></li>
+            <li><Link to="/OffChain">OnChainTransactions</Link></li>
+            <li><Link to="/PriceData">Offchain Price</Link></li>
+
           </ul>
         </nav>
       </div>
